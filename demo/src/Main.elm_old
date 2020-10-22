@@ -1,0 +1,65 @@
+module Main exposing (..)
+
+import Browser
+import CRDT
+import Html exposing (Html, button, div, text)
+import Html.Events exposing (onClick)
+
+
+
+-- MAIN
+
+
+main =
+    Browser.sandbox { init = init, update = update, view = view }
+
+
+
+-- MODEL
+
+
+type alias Model =
+    { content : CRDT.Model }
+
+
+init : Model
+init =
+    { content = CRDT.init }
+
+
+
+-- UPDATE
+
+
+type Msg
+    = KeyPress String
+
+
+update : Msg -> Model -> Model
+update msg model =
+    case msg of
+        KeyPress k ->
+            { model | content = CRDT.insertAtSelection model.content k }
+
+
+
+-- VIEW
+
+
+viewVertex : CRDT.Vertex String -> Html Msg
+viewVertex v =
+    case v.data of
+        CRDT.Root ->
+            text ""
+
+        CRDT.Data s ->
+            text s
+
+
+view : Model -> Html Msg
+view model =
+    div []
+        [ button [ onClick (KeyPress "s") ] [ text "Add s" ]
+        , div []
+            (CRDT.read model.content |> List.map viewVertex)
+        ]
