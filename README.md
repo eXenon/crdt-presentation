@@ -1,7 +1,7 @@
 Short presentation about CRDTs, with Elm demo.  
 
-Slides here : https://exenon.github.com/index.html  
+Slides here : https://exenon.github.com/crdt-presentation/index.html  
 
-Demo here : https://exenon.github.com/crdt.html
+Demo here : https://exenon.github.com/crdt-presentation/crdt.html
 
 
