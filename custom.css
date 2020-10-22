@@ -1,0 +1,60 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300ita‌​lic,400italic,500,500italic,700,700italic,900italic,900);
+h1,h2,h3,h4,h5,h6,p,b {
+  font-family: Roboto !important;
+}
+
+i.fas {
+    font-family: Font Awesome 5 Free !important;
+}
+
+.t {
+    text-align: left !important;
+    padding-left: 5%;
+    font-size: 0.7em !important;
+}
+
+.title {
+    font-weight: 300 !important;
+}
+
+.hl {
+    color: #7484cb;
+    margin-left: 15px !important;
+    margin-right: 15px !important;
+}
+
+.half {
+    width: 50%;
+}
+
+.third {
+    width: 33%;
+}
+
+.left-col {
+    width: 400px;
+    padding-right: 50px !important;
+    float: left;
+}
+
+.right-col {
+    width: 400px;
+    padding-left: 50px !important;
+    float: right;
+}
+
+.left {
+    float: left;
+}
+
+.right {
+    float: right;
+}
+
+.didyouknow {
+    font-size: 0.4em !important;
+    font-style: italic !important;
+}
+.didyouknow > i {
+    margin-right: 5px;
+}
