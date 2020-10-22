@@ -41,7 +41,7 @@ The idea is to generate operations on the client then funnel them all through a 
 server who will adjust them based on the operations of the other clients and then
 distribute them :
 
-<img src="static/ot.png" height="400px">
+<img src="assets/ot.png" height="400px">
 
 ---
 
@@ -136,7 +136,7 @@ To make IDs unique and generatable, use a random host ID and an incrementing tim
 
 To ensure ordering, every letter is associated with its cause, building a *causal* tree.
 
-<img src="static/tree.svg" height="400px" style="background: white; padding: 10px"/>
+<img src="assets/tree.svg" height="400px" style="background: white; padding: 10px"/>
 
 ---
 
