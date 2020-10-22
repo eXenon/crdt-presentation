@@ -1,3 +1,7 @@
-Short presentation about Category Theory.
+Short presentation about CRDTs, with Elm demo.  
 
-All taken from : https://bartoszmilewski.com/2014/10/28/category-theory-for-programmers-the-preface/
+Slides here : https://exenon.github.com/index.html  
+
+Demo here : https://exenon.github.com/crdt.html
+
+
