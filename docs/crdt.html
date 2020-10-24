@@ -4653,87 +4653,6 @@ var $author$project$CRDT$Insert = F3(
 	function (a, b, c) {
 		return {$: 'Insert', a: a, b: b, c: c};
 	});
-var $elm$core$List$tail = function (list) {
-	if (list.b) {
-		var x = list.a;
-		var xs = list.b;
-		return $elm$core$Maybe$Just(xs);
-	} else {
-		return $elm$core$Maybe$Nothing;
-	}
-};
-var $author$project$CRDT$Corrupted = {$: 'Corrupted'};
-var $author$project$CRDT$Data = function (a) {
-	return {$: 'Data', a: a};
-};
-var $author$project$CRDT$Delete = {$: 'Delete'};
-var $author$project$CRDT$Root = {$: 'Root'};
-var $author$project$CRDT$vertexType = function (_v0) {
-	var a = _v0.c;
-	switch (a.a) {
-		case 0:
-			return $author$project$CRDT$Root;
-		case 1:
-			var s = a.b;
-			return $author$project$CRDT$Data(s);
-		case 2:
-			return $author$project$CRDT$Delete;
-		default:
-			return $author$project$CRDT$Corrupted;
-	}
-};
-var $elm$core$Maybe$withDefault = F2(
-	function (_default, maybe) {
-		if (maybe.$ === 'Just') {
-			var value = maybe.a;
-			return value;
-		} else {
-			return _default;
-		}
-	});
-var $author$project$CRDT$build_weave_rec = F2(
-	function (acc, weave) {
-		build_weave_rec:
-		while (true) {
-			if (weave.b) {
-				var v = weave.a;
-				var t = weave.b;
-				var _v1 = $author$project$CRDT$vertexType(v);
-				switch (_v1.$) {
-					case 'Root':
-						var $temp$acc = acc,
-							$temp$weave = t;
-						acc = $temp$acc;
-						weave = $temp$weave;
-						continue build_weave_rec;
-					case 'Data':
-						var s = _v1.a;
-						var $temp$acc = A2($elm$core$List$cons, v, acc),
-							$temp$weave = t;
-						acc = $temp$acc;
-						weave = $temp$weave;
-						continue build_weave_rec;
-					case 'Delete':
-						var $temp$acc = A2(
-							$elm$core$Maybe$withDefault,
-							_List_Nil,
-							$elm$core$List$tail(acc)),
-							$temp$weave = t;
-						acc = $temp$acc;
-						weave = $temp$weave;
-						continue build_weave_rec;
-					default:
-						var $temp$acc = acc,
-							$temp$weave = t;
-						acc = $temp$acc;
-						weave = $temp$weave;
-						continue build_weave_rec;
-				}
-			} else {
-				return acc;
-			}
-		}
-	});
 var $elm$core$Basics$add = _Basics_add;
 var $elm$core$List$reverse = function (list) {
 	return A3($elm$core$List$foldl, $elm$core$List$cons, _List_Nil, list);
@@ -4792,6 +4711,86 @@ var $elm$core$List$foldrHelper = F4(
 var $elm$core$List$foldr = F3(
 	function (fn, acc, ls) {
 		return A4($elm$core$List$foldrHelper, fn, acc, 0, ls);
+	});
+var $elm$core$List$filter = F2(
+	function (isGood, list) {
+		return A3(
+			$elm$core$List$foldr,
+			F2(
+				function (x, xs) {
+					return isGood(x) ? A2($elm$core$List$cons, x, xs) : xs;
+				}),
+			_List_Nil,
+			list);
+	});
+var $elm$core$Basics$neq = _Utils_notEqual;
+var $author$project$CRDT$Corrupted = {$: 'Corrupted'};
+var $author$project$CRDT$Data = function (a) {
+	return {$: 'Data', a: a};
+};
+var $author$project$CRDT$Delete = {$: 'Delete'};
+var $author$project$CRDT$Root = {$: 'Root'};
+var $author$project$CRDT$vertexType = function (_v0) {
+	var a = _v0.c;
+	switch (a.a) {
+		case 0:
+			return $author$project$CRDT$Root;
+		case 1:
+			var s = a.b;
+			return $author$project$CRDT$Data(s);
+		case 2:
+			return $author$project$CRDT$Delete;
+		default:
+			return $author$project$CRDT$Corrupted;
+	}
+};
+var $author$project$CRDT$build_weave_rec = F2(
+	function (acc, weave) {
+		build_weave_rec:
+		while (true) {
+			if (weave.b) {
+				var v = weave.a;
+				var t = weave.b;
+				var _v1 = $author$project$CRDT$vertexType(v);
+				switch (_v1.$) {
+					case 'Root':
+						var $temp$acc = acc,
+							$temp$weave = t;
+						acc = $temp$acc;
+						weave = $temp$weave;
+						continue build_weave_rec;
+					case 'Data':
+						var s = _v1.a;
+						var $temp$acc = A2($elm$core$List$cons, v, acc),
+							$temp$weave = t;
+						acc = $temp$acc;
+						weave = $temp$weave;
+						continue build_weave_rec;
+					case 'Delete':
+						var _v2 = v;
+						var deleted_id = _v2.b;
+						var $temp$acc = A2(
+							$elm$core$List$filter,
+							function (_v3) {
+								var i = _v3.a;
+								return !_Utils_eq(deleted_id, i);
+							},
+							acc),
+							$temp$weave = t;
+						acc = $temp$acc;
+						weave = $temp$weave;
+						continue build_weave_rec;
+					default:
+						var $temp$acc = acc,
+							$temp$weave = t;
+						acc = $temp$acc;
+						weave = $temp$weave;
+						continue build_weave_rec;
+				}
+			} else {
+				return acc;
+			}
+		}
 	});
 var $elm$core$List$append = F2(
 	function (xs, ys) {
@@ -4912,6 +4911,15 @@ var $author$project$CRDT$insert = F3(
 				model.next_id,
 				cause_id,
 				_Utils_Tuple2(1, atom)));
+	});
+var $elm$core$Maybe$withDefault = F2(
+	function (_default, maybe) {
+		if (maybe.$ === 'Just') {
+			var value = maybe.a;
+			return value;
+		} else {
+			return _default;
+		}
 	});
 var $author$project$CRDT$insertAtEnd = F2(
 	function (model, atom) {
@@ -5636,7 +5644,6 @@ var $elm$core$Dict$get = F2(
 			}
 		}
 	});
-var $elm$core$Basics$neq = _Utils_notEqual;
 var $author$project$CRDT$plaholder_atom = _Utils_Tuple2(3, '');
 var $author$project$CRDT$plaholder_id = _Utils_Tuple2(0, 0);
 var $author$project$CRDT$apply = F2(

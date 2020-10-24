@@ -274,7 +274,11 @@ build_weave_rec acc weave =
                     build_weave_rec (v :: acc) t
 
                 Delete ->
-                    build_weave_rec (acc |> List.tail |> Maybe.withDefault []) t
+                    let
+                        ( _, deleted_id, _ ) =
+                            v
+                    in
+                    build_weave_rec (acc |> List.filter (\( i, _, _ ) -> deleted_id /= i)) t
 
                 Corrupted ->
                     build_weave_rec acc t
